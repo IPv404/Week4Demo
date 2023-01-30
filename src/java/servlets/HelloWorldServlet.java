@@ -36,7 +36,7 @@ public class HelloWorldServlet extends HttpServlet {
         //If first or last name doesnt exist, resend form and end
         if (firstname == null || firstname.equals("") || lastname == null || lastname.equals(""))
         {
-            
+             request.setAttribute("message", "Invalid Entry!");
             //reset form
             getServletContext().getRequestDispatcher("/WEB-INF/helloWorldForm.jsp")
                 .forward(request, response);
