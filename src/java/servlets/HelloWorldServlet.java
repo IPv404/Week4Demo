@@ -5,6 +5,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import models.Person;
 
 /**
  *
@@ -28,15 +29,19 @@ public class HelloWorldServlet extends HttpServlet {
         String firstname = request.getParameter("firstname");
         String lastname = request.getParameter("lastname");
         
-        //setting variables
-        request.setAttribute("firstname", firstname);
-        request.setAttribute("lastname", lastname);
+        
         
         
         //If first or last name doesnt exist, resend form and end
         if (firstname == null || firstname.equals("") || lastname == null || lastname.equals(""))
         {
-             request.setAttribute("message", "Invalid Entry!");
+                //setting variables
+            request.setAttribute("firstname", firstname);
+            request.setAttribute("lastname", lastname);
+            
+            //message
+            request.setAttribute("message", "Invalid Entry!");
+            
             //reset form
             getServletContext().getRequestDispatcher("/WEB-INF/helloWorldForm.jsp")
                 .forward(request, response);
@@ -44,6 +49,12 @@ public class HelloWorldServlet extends HttpServlet {
             //end so next line does not run
             return;
         }  
+        
+        
+        Person person = new Person(firstname, lastname); 
+        request.setAttribute("person", person);
+        
+        
         
         //Valid names sent to sayHello
         getServletContext().getRequestDispatcher("/WEB-INF/sayHello.jsp")
